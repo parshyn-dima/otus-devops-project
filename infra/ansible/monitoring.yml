@@ -1,0 +1,23 @@
+---
+- hosts: monitoring
+  become: true
+  roles:
+    - prometheus
+    - grafana
+  vars:
+    prometheus_targets:
+      node:
+      - targets:
+        - node-1:9100
+        - node-2:9100
+        - node-3:9100
+        - master-1:9100
+        labels:
+          env: swarm cluster
+    prometheus_global:
+      scrape_interval: 2s
+      scrape_timeout: 2s
+      evaluation_interval: 10s
+    grafana_security:
+      admin_user: admin
+      admin_password: "Password"
