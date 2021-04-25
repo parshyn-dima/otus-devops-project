@@ -4,5 +4,5 @@
   roles:
     - role: gitlab-shell-runner
       vars:
-        registration_token: 5sLigzNHXVYNwcLbJft3
-        gitlab_url: http://84.252.130.2/
+        registration_token: qF_Mg9miJNXdrejc4wDQ
+        gitlab_url: http://178.154.201.162/
