@@ -4,11 +4,11 @@
 
 # Создание процесса непрерывной поставки для приложения с применением практик CI/CD и быстрой обратной связью
 
-![project_schema](https://github.com/parshyn-dima/screens/blob/master/devops_project/project_schemav2.png)
+![project_schema](https://github.com/parshyn-dima/screens/blob/master/devops_project/project_schemav3.png)
 
 В качестве проекта взял приложение предоставляемое otus. Данное приложение будет разворачиваться в кластере docker swarm.
 
-Вся инфраструктура развернута в Yandex Cloud.  
+Вся инфраструктура развернута в Yandex Cloud.
 
 ### Описание инфраструктуры:
 
@@ -19,7 +19,7 @@
 
 ### Предварительная подготовка для запуска инфраструктуры проекта
 
-**Необходимо иметь действующий аккаунт в Yandex Cloud**  
+**Необходимо иметь действующий аккаунт в Yandex Cloud**
 https://cloud.yandex.ru/docs/cli/quickstart
 
 ```
@@ -27,7 +27,7 @@ git clone https://gitlab.dparshin.ru/otus_devops_project/app.git
 cd app
 ```
 
-Для запуска проекта необходимо внести свои данные в файлы конфигурации и переименовать их, удалив из названия .example:  
+Для запуска проекта необходимо внести свои данные в файлы конфигурации и переименовать их, удалив из названия .example:
 1) infra/terraform/terraform.tfvars.example
    ```
    yc config list
@@ -37,7 +37,7 @@ cd app
    Для удобства настройки проекта, были зарезервированы два "белых" IP. Данные IP необходимо
    указать как параметры для переменных ip_bastion и ip_loadbalancer в terraform.tfvars.
 
-2) infra/terraform/key.json.example  
+2) infra/terraform/key.json.example
    Создание сервисного аккаунта.
    ```
    yc config list
@@ -51,37 +51,37 @@ cd app
    ```
 3) infra/ansible/roles/swarm/.env.example
 4) На ПК с которого будет запускаться проект необходимо создать файл config в директории
-   ~/.ssh/. 
+   ~/.ssh/.
    ```
-   Host    bastion 
+   Host    bastion
            hostname <ip_bastion>
    Host    master-*
            ProxyJump bastion
    Host    node-*
            ProxyJump bastion
-   Host * 
+   Host *
            user ubuntu
-           ForwardAgent yes 
-           ControlMaster auto 
+           ForwardAgent yes
+           ControlMaster auto
            ControlPersist 5
            StrictHostKeyChecking no
            UserKnownHostsFile=/dev/null
    ```
 
-### Запуск инфраструктуры проекта  
+### Запуск инфраструктуры проекта
 
-После выполнения предварительной подготовки возможен запуск инфраструктуры проекта. Для этого необходимо перейти в каталог terraform и выполнить следующие команды:  
+После выполнения предварительной подготовки возможен запуск инфраструктуры проекта. Для этого необходимо перейти в каталог terraform и выполнить следующие команды:
 ```
 terraform init
 terraform plan
 terraform apply -auto-approve
 ```
 
-После развертывания инфраструктуры приложение будет доступно по адресу  
+После развертывания инфраструктуры приложение будет доступно по адресу
 ```
 http://<ip_loadbalancer>
 ```
-web console RabbitMQ  
+web console RabbitMQ
 ```
 http://<ip_loadbalancer>:15672
 ```
