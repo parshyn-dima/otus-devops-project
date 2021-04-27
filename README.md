@@ -60,7 +60,7 @@ https://cloud.yandex.ru/docs/cli/quickstart
 
 ```
 https://github.com/parshyn-dima/otus-devops-project
-cd otus-devops-project
+cd otus-devops-project/infra/terraform
 ```
 
 Для запуска проекта необходимо внести свои данные в файлы конфигурации и переименовать их, удалив из названия .example:
@@ -95,6 +95,10 @@ cd otus-devops-project
            ProxyJump bastion
    Host    node-*
            ProxyJump bastion
+   Host    *-runner
+           ProxyJump bastion
+   Host    gitlab
+           ProxyJump bastion
    Host *
            user ubuntu
            ForwardAgent yes
@@ -120,5 +124,42 @@ http://<ip_loadbalancer>
 web console RabbitMQ
 ```
 http://<ip_loadbalancer>:15672
+login: guest
+password: guest
 ```
-    
+Grafana
+```
+http://<ip_loadbalancer>:3000
+login: admin
+password: admin
+```
+Prometheus
+```
+http://<ip_loadbalancer>:9090
+login: admin
+password: admin
+```    
+cAdvisor
+```
+http://<ip_loadbalancer>:8080
+login: admin
+password: admin
+```  
+### CI/CD
+Для построения процесса CI/CD необходимо выполнить вход в GitLab
+```
+http://<ip_gitlab>
+```
+После смены пароля необходимо создать группу и два проекта (UI, CRAWLER). Далее добавляем две групповые переменные в Settings - CI/CD - Variables DOCKER_REGISTRY_PASSWORD и DOCKER_REGISTRY_USER.    
+DOCKER_REGISTRY_USER - пользователь вашего docker hub репозитория  
+DOCKER_REGISTRY_PASSWORD - пароль вашего docker hub репозитория  
+
+Settings - CI/CD - Runners в данном разделе необходимо скопировать url GitLab и токен. Установить эти переменные в файлы otus-devops-project/infra/ansible/install_docker_gitlab_runner.yml и otus-devops-project/infra/ansible/install_shell_gitlab_runner.yml.
+```
+cd otus-devops-project/infra/ansible
+ansible-playbook install_docker_gitlab_runner.yml
+ansible-playbook install_shell_gitlab_runner.yml
+```
+Данные плайбуки установят и зарегистрируют два gitlab runner. Docker runner устанавливается на ВМ docker-runner, shell runner устанавливается на master-1.  
+Далее в созданные два проекта копируем содержимое otus-devops-project/infra/ui и otus-devops-project/infra/crawler. После пуша в данные репозитории запустятся задачи CI/CD.
+
