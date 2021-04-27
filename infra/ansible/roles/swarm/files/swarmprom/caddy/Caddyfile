@@ -40,7 +40,7 @@
 
 :8080 {
     basicauth / {$ADMIN_USER} {$ADMIN_PASSWORD}
-    proxy / grafana:8080 {
+    proxy / cadvisor:8080 {
             transparent
             websocket
         }

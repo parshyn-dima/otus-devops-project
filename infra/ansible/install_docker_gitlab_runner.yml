@@ -4,5 +4,5 @@
   roles:
     - role: gitlab-docker-runner
       vars:
-        registration_token: qF_Mg9miJNXdrejc4wDQ
-        gitlab_url: http://178.154.201.162/
+        registration_token: <GITLAB_TOKEN>
+        gitlab_url: <URL_GITLAB>
