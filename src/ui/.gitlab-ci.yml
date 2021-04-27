@@ -33,7 +33,7 @@ test_ui:
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
   script:
-    - echo 'Test ui'
+    - echo 'Test ui app'
     - docker run $DOCKER_REGISTRY_USER/project_ui:latest python -m unittest discover -s tests/
   tags:
    - docker
@@ -43,7 +43,7 @@ production_ui:
   when: manual
   script:
     - cd /swarm/
-    - docker stack deploy --compose-file=<(docker-compose -f docker-compose.yml config 2>/dev/null) DEV
+    - docker stack deploy --compose-file=<(docker-compose -f docker-compose.yml config 2>/dev/null) PROD
   only:
     - master
   environment:

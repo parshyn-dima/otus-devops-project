@@ -43,7 +43,7 @@ production_ui:
   when: manual
   script:
     - cd /swarm/
-    - docker stack deploy --compose-file=<(docker-compose -f docker-compose.yml config 2>/dev/null) DEV
+    - docker stack deploy --compose-file=<(docker-compose -f docker-compose.yml config 2>/dev/null) PROD
   only:
     - master
   environment:
